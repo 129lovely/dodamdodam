@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>도담도담</title>
+
+    <!-- css style -->
+    <style>
+      video {
+        width: 40%;
+        border-radius: 15px;
+      }
+
+      #chat-container {
+        overflow: scroll;
+        height: 200px;
+        background-color: pink;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- html -->
+
+    <!-- required -->
+    <div>
+      <button id="btn-open-or-join-room">Open Or Join Room</button>
+      <input id="txt-roomid" placeholder="방번호" />
+    </div>
+
+    <!-- optional -->
+
+    이름:<input id="txt-userid" placeholder="이름" />
+
+    <hr />
+    <button id="btn-stt">음성인식 시작</button>
+
+    <div id="chat-container">
+      여긴대화로그
+      <div class="chat-output"></div>
+    </div>
+
+    <div id="local-videos-container">내비디오</div>
+    <hr />
+    <div id="remote-videos-container">상대 비디오</div>
+
+    <!-- javascript library -->
+    <script src="/dist/RTCMultiConnection.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/demos/js/script.js"></script>
+  </body>
+</html>
