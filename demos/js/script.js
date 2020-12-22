@@ -2,7 +2,6 @@
 //
 // config socket connection
 //
-
 // ===========================================================
 const connection = new RTCMultiConnection();
 
@@ -80,9 +79,6 @@ if (typeof SpeechRecognition === "undefined") {
     if (event.error == "no-speech") {
       // No speech was detected.
       isSttErrorOccured = false;
-    } else if (event.error == "aborted") {
-      // Speech input was aborted in some manner, perhaps by some user-agent-specific behavior like a button the user can press to cancel speech input.
-      isSttErrorOccured = true;
     } else {
       isSttErrorOccured = true;
       alert(
@@ -91,10 +87,11 @@ if (typeof SpeechRecognition === "undefined") {
     }
   });
   recognition.addEventListener("end", (event) => {
-    console.log("멈춤");
+    console.log("stop speech recognition...");
     // error 또는 stop 이벤트 발생시 end 이벤트 자동 호출
     isSttRecognizing = false;
     if (isSttErrorOccured) {
+      // no-speech 외의 에러 발생으로 인한 end 이벤트일 경우
       btnStt.textContent = "음성인식 시작하기";
       isSttErrorOccured = false;
       return;
@@ -104,7 +101,12 @@ if (typeof SpeechRecognition === "undefined") {
 
   // button eventlistener
   btnStt.addEventListener("click", () => {
-    isSttRecognizing ? recognition.abort() : recognition.start();
+    if (isSttRecognizing) {
+      isSttErrorOccured = true;
+      recognition.stop();
+    } else {
+      recognition.start();
+    }
   });
 }
 
