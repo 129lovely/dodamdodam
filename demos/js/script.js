@@ -85,6 +85,9 @@ if (typeof SpeechRecognition === "undefined") {
       isSttErrorOccured = true;
     } else {
       isSttErrorOccured = true;
+      alert(
+        "알 수 없는 오류로 음성인식이 자동 중지되었습니다.\n재시작을 원하시면 '음성인식 시작하기' 버튼을 눌러주세요!"
+      );
     }
   });
   recognition.addEventListener("end", (event) => {
@@ -94,10 +97,6 @@ if (typeof SpeechRecognition === "undefined") {
     if (isSttErrorOccured) {
       btnStt.textContent = "음성인식 시작하기";
       isSttErrorOccured = false;
-
-      alert(
-        "알 수 없는 오류로 음성인식이 자동 중지되었습니다.\n재시작을 원하시면 '음성인식 시작하기' 버튼을 눌러주세요!"
-      );
       return;
     }
     recognition.start();
