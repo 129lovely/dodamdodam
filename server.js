@@ -1,6 +1,7 @@
 // http://127.0.0.1:9001
 // http://localhost:9001
 const winston = require("./demos/js/winston");
+const PythonShell = require("python-shell");
 
 const fs = require("fs");
 const path = require("path");
@@ -68,7 +69,7 @@ function serverHandler(request, response) {
 
     // ===========================================================
     //
-    // POST method api
+    // config api routers
     //
     // ===========================================================
     const api_url = filename.split("dodamdodam")[1]; // path 가져오기
@@ -112,9 +113,33 @@ function serverHandler(request, response) {
       }
       // 2. 얼굴 인식
       // 3. 집중도 인식
-      // 4. 파이썬 코드 돌려서 파일 만들어서 return
     }
 
+    if (request.method == "GET") {
+      /**
+       * 최종 리포트 파일 리턴
+       */
+      if (api_url.indexOf("/api/report") != -1) {
+        const roomid = api_url.split("/")[3]; // url에서 roomid 가져오기
+        const chat_data = fs.readFileSync(__dirname + "/logs/" + roomid);
+
+        //한글도 데이터 오갈수 있음 test.py를 실행시키면 확인할 수 있음
+        const options = {
+          mode: "text",
+          pythonPath: "",
+          encoding: "utf8",
+          pythonOptions: ["-u"],
+          scriptPath: "",
+          args: [escape(data.toString())],
+        };
+      }
+    }
+
+    // ===========================================================
+    //
+    // config etc router
+    //
+    // ===========================================================
     if (request.method !== "GET" || uri.indexOf("..") !== -1) {
       try {
         response.writeHead(401, {

@@ -28,6 +28,8 @@ connection.onmessage = (event) => {
 };
 
 const chatContainer = document.querySelector(".chat-output");
+const btnSendChat = document.getElementById("btn-send-chat");
+const chatText = document.getElementById("txt-chat");
 
 function appendDIV(event) {
   const div = document.createElement("div");
@@ -163,6 +165,19 @@ if (typeof SpeechRecognition === "undefined") {
 const localVideoContainer = document.getElementById("local-videos-container");
 const remoteVideoContainer = document.getElementById("remote-videos-container");
 
+btnSendChat.addEventListener("click", () => {
+  const time = new Date()
+    .toTimeString()
+    .replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+  const _userid = userid.value;
+  const contents = chatText.value;
+
+  // send chat to socket
+  const text = `[${time}] ${_userid}: ${contents}`;
+  connection.send(text);
+  appendDIV(text);
+});
+
 connection.onstream = (event) => {
   const video = event.mediaElement;
 
@@ -175,4 +190,5 @@ connection.onstream = (event) => {
 
   // activate stt button
   btnStt.style.display = "inline";
+  btnSendChat.style.display = "inline";
 };

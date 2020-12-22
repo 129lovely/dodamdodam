@@ -54,6 +54,7 @@
     "fbr": "latest",
     "getstats": "latest",
     "multistreamsmixer": "latest",
+    "python-shell": "^2.0.3",
     "recordrtc": "latest",
     "rtcmulticonnection-server": "latest",
     "socket.io": "latest",
