@@ -1,7 +1,8 @@
 // ===========================================================
 //
-// socket connection configuration
+// config socket connection
 //
+
 // ===========================================================
 const connection = new RTCMultiConnection();
 
@@ -24,7 +25,7 @@ connection.sdpConstraints.mandatory = {
 //
 // ===========================================================
 connection.onmessage = (event) => {
-  appendDIV(`${event.userid}> ${event.data}`);
+  appendDIV(event.data);
 };
 
 const chatContainer = document.querySelector(".chat-output");
@@ -40,22 +41,24 @@ function appendDIV(event) {
 // Speech To Text
 //
 // ===========================================================
-let isSttRecognizing = false;
-let isSttErrorOccured = true;
-const btnStt = document.getElementById("btn-stt");
 
+const btnStt = document.getElementById("btn-stt");
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
+
 if (typeof SpeechRecognition === "undefined") {
-  btnSpeechToText.remove();
+  btnStt.remove();
   alert("음성인식을 지원하지 않는 브라우저입니다.");
 } else {
-  let isSttRecognizing = false;
+  let isSttRecognizing = false; // 현재 인식 중인지 확인
+  let isSttErrorOccured = false; // 에러로 인한 stop 인지 확인
+
   const recognition = new SpeechRecognition();
 
   recognition.continuous = false;
   recognition.interimResults = false;
 
+  // result, start, error, end 이벤트 등록
   recognition.addEventListener("result", (event) => {
     for (const res of event.results) {
       if (res.isFinal) {
@@ -68,71 +71,69 @@ if (typeof SpeechRecognition === "undefined") {
       }
     }
   });
-
-  recognition.addEventListener("start", () => {
-    btnStt.textContent = "음성인식 멈추기";
+  recognition.addEventListener("start", (event) => {
     isSttRecognizing = true;
+    btnStt.textContent = "음성인식 멈추기";
   });
-
   recognition.addEventListener("error", (event) => {
     if (event.error == "no-speech") {
       // No speech was detected.
+      isSttErrorOccured = false;
     } else if (event.error == "aborted") {
       // Speech input was aborted in some manner, perhaps by some user-agent-specific behavior like a button the user can press to cancel speech input.
+      isSttErrorOccured = true;
     } else {
-      // Etc.
-      alert(
-        "알 수 없는 오류로 음성인식이 자동 중지되었습니다.\n재시작을 원하시면 '음성인식 시작하기' 버튼을 눌러주세요!"
-      );
+      isSttErrorOccured = true;
     }
-
-    isSttErrorOccured = true;
-    btnStt.textContent = "음성인식 시작하기";
   });
-
-  recognition.addEventListener("stop", () => {
-    console.log("stop");
-  });
-
-  // error 또는 stop 이벤트 발생시 end 이벤트 자동 호출
   recognition.addEventListener("end", (event) => {
+    console.log("멈춤");
+    // error 또는 stop 이벤트 발생시 end 이벤트 자동 호출
     isSttRecognizing = false;
     if (isSttErrorOccured) {
       btnStt.textContent = "음성인식 시작하기";
+      isSttErrorOccured = false;
+
+      alert(
+        "알 수 없는 오류로 음성인식이 자동 중지되었습니다.\n재시작을 원하시면 '음성인식 시작하기' 버튼을 눌러주세요!"
+      );
       return;
     }
     recognition.start();
   });
 
+  // button eventlistener
   btnStt.addEventListener("click", () => {
-    // todo : 이쪽 코드 괜찮으려나???? 다시 생각해보자
-    isSttErrorOccured = !isSttErrorOccured;
-
-    isSttRecognizing ? recognition.stop() : recognition.start();
-
-    isSttRecognizing = !isSttRecognizing;
+    isSttRecognizing ? recognition.abort() : recognition.start();
   });
 }
 
-// userid 가져오기
+// ===========================================================
+//
+// required settings
+//
+// ===========================================================
+// get userid
 let userid = document.getElementById("txt-userid");
 userid.value = connection.token();
 
-// roomid 가져오기
+// get roomid
 let roomid = document.getElementById("txt-roomid");
 roomid.value = (Math.random() * 1000).toString().replace(".", "");
-//   roomid.value = connection.token(); // 토큰으로 room id 생성
 
-// btn 누르면 입장하기
-document.getElementById("btn-open-or-join-room").onclick = () => {
+// enter the room
+document.getElementById("btn-open-or-join-room").onclick = function () {
   this.disabled = true;
 
-  // roomid 로 입장
   connection.userid = userid.value;
   connection.openOrJoin(roomid.value || "predefiend-roomid");
 };
 
-// 여기서부터 옵션
+// ===========================================================
+//
+// optional settings
+//
+// ===========================================================
 const localVideoContainer = document.getElementById("local-videos-container");
 const remoteVideoContainer = document.getElementById("remote-videos-container");
 
