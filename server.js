@@ -9,6 +9,8 @@ var httpServer = require("http");
 
 const ioServer = require("socket.io");
 const RTCMultiConnectionServer = require("rtcmulticonnection-server");
+const { file } = require("grunt");
+const pushLogs = RTCMultiConnectionServer.pushLogs;
 
 var PORT = 9001;
 var isUseHTTPs = false;
@@ -62,27 +64,70 @@ function serverHandler(request, response) {
 
     filename = (filename || "").toString();
 
-    // to-do: 채팅 받아와서 룸넘버별로 파일 만들어놓기
-    // 입장 로비 만들기
+    // (1) 채팅 받아와서 룸넘버별로 파일 만들어놓기
+    // (2) 입장 로비 만들기
+
+    // ===========================================================
+    //
+    // POST method api
+    //
+    // ===========================================================
+    const api_url = filename.split("dodamdodam")[1]; // path 가져오기
+    winston.info(request.method + " " + api_url); // request.method path
+
     if (request.method == "POST") {
-      // 1. 채팅 로그
+      /**
+       * json 채팅 로그 파일 생성
+       */
+      if (api_url == "/api/chat") {
+        let body = "";
+        request.on("data", (chunk) => {
+          body += chunk.toString();
+        });
+        return request.on("end", () => {
+          let data = JSON.parse(body);
+          const filepath = __dirname + "/logs/" + data.roomid + ".json";
+
+          try {
+            // file already exists
+            let data_list = fs.readFileSync(filepath);
+            data_list = JSON.parse(data_list);
+            data_list.push(data);
+            data = data_list;
+          } catch (err) {
+            if (err.code === "ENOENT") {
+              // file not exists
+              data = [data];
+            } else {
+              throw err;
+            }
+          }
+
+          fs.writeFile(filepath, JSON.stringify(data), (err) => {
+            if (err) throw err;
+          });
+
+          response.writeHead(201);
+          response.end("created");
+        });
+      }
       // 2. 얼굴 인식
       // 3. 집중도 인식
       // 4. 파이썬 코드 돌려서 파일 만들어서 return
     }
 
-    // if (request.method !== "GET" || uri.indexOf("..") !== -1) {
-    //   try {
-    //     response.writeHead(401, {
-    //       "Content-Type": "text/plain",
-    //     });
-    //     response.write("401 Unauthorized: " + path.join("/", uri) + "\n");
-    //     response.end();
-    //     return;
-    //   } catch (e) {
-    //     pushLogs(config, "!GET or ..", e);
-    //   }
-    // }
+    if (request.method !== "GET" || uri.indexOf("..") !== -1) {
+      try {
+        response.writeHead(401, {
+          "Content-Type": "text/plain",
+        });
+        response.write("401 Unauthorized: " + path.join("/", uri) + "\n");
+        response.end();
+        return;
+      } catch (e) {
+        pushLogs(config, "!GET or ..", e);
+      }
+    }
 
     if (
       filename.indexOf(resolveURL("/admin/")) !== -1 &&

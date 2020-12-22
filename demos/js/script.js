@@ -38,11 +38,34 @@ function appendDIV(event) {
 
 // ===========================================================
 //
+// required settings
+//
+// ===========================================================
+// get userid
+let userid = document.getElementById("txt-userid");
+userid.value = connection.token();
+
+// get roomid
+let roomid = document.getElementById("txt-roomid");
+roomid.value = (Math.random() * 1000).toString().replace(".", "");
+
+// enter the room
+document.getElementById("btn-open-or-join-room").onclick = function () {
+  this.disabled = true;
+  userid.disabled = true;
+  roomid.disabled = true;
+
+  connection.userid = userid.value;
+  connection.openOrJoin(roomid.value || "predefiend-roomid");
+};
+
+// ===========================================================
+//
 // Speech To Text
 //
 // ===========================================================
-
 const btnStt = document.getElementById("btn-stt");
+
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -62,12 +85,34 @@ if (typeof SpeechRecognition === "undefined") {
   recognition.addEventListener("result", (event) => {
     for (const res of event.results) {
       if (res.isFinal) {
+        const _roomid = roomid.value;
         const time = new Date()
           .toTimeString()
           .replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
-        const text = `[${time}] ${userid.value}: ${res[0].transcript}`;
+        const _userid = userid.value;
+        const contents = res[0].transcript;
+
+        // send chat to socket
+        const text = `[${time}] ${_userid}: ${contents}`;
         connection.send(text);
         appendDIV(text);
+
+        // post chat to server
+        const data = {
+          roomid: _roomid,
+          time: time,
+          userid: _userid,
+          contents: res[0].transcript,
+        };
+        fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          body: JSON.stringify(data),
+        }).then((response) => {
+          console.log(response.status + " " + response.statusText);
+        });
       }
     }
   });
@@ -109,29 +154,6 @@ if (typeof SpeechRecognition === "undefined") {
     }
   });
 }
-
-// ===========================================================
-//
-// required settings
-//
-// ===========================================================
-// get userid
-let userid = document.getElementById("txt-userid");
-userid.value = connection.token();
-
-// get roomid
-let roomid = document.getElementById("txt-roomid");
-roomid.value = (Math.random() * 1000).toString().replace(".", "");
-
-// enter the room
-document.getElementById("btn-open-or-join-room").onclick = function () {
-  this.disabled = true;
-  userid.disabled = true;
-  roomid.disabled = true;
-
-  connection.userid = userid.value;
-  connection.openOrJoin(roomid.value || "predefiend-roomid");
-};
 
 // ===========================================================
 //
