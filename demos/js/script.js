@@ -34,6 +34,7 @@ function appendDIV(event) {
   const div = document.createElement("div");
   div.innerHTML = event.data || event;
   chatContainer.appendChild(div);
+  chatContainer.parentElement.scrollTop = chatContainer.scrollHeight;
 }
 
 // ===========================================================
@@ -124,6 +125,8 @@ roomid.value = (Math.random() * 1000).toString().replace(".", "");
 // enter the room
 document.getElementById("btn-open-or-join-room").onclick = function () {
   this.disabled = true;
+  userid.disabled = true;
+  roomid.disabled = true;
 
   connection.userid = userid.value;
   connection.openOrJoin(roomid.value || "predefiend-roomid");
