@@ -172,4 +172,7 @@ connection.onstream = (event) => {
   if (event.type === "remote") {
     remoteVideoContainer.appendChild(video);
   }
+
+  // activate stt button
+  btnStt.style.display = "inline";
 };
