@@ -9,7 +9,6 @@ var httpServer = require("http");
 
 const ioServer = require("socket.io");
 const RTCMultiConnectionServer = require("rtcmulticonnection-server");
-const { file } = require("grunt");
 const pushLogs = RTCMultiConnectionServer.pushLogs;
 
 var PORT = 9001;
