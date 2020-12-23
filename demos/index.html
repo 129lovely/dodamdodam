@@ -8,7 +8,7 @@
     <!-- css style -->
     <style>
       video {
-        width: 40%;
+        width: 20%;
         border-radius: 15px;
       }
 
@@ -16,6 +16,12 @@
         overflow-y: auto;
         height: 200px;
         background-color: pink;
+      }
+
+      #txt-chat {
+        width: 80%;
+        height: 30px;
+        font-size: 20px;
       }
     </style>
   </head>
@@ -38,7 +44,7 @@
       여긴대화로그
       <div class="chat-output"></div>
     </div>
-    <input id="txt-chat" type="text" /><button
+    <input id="txt-chat" type="text" placeholder="채팅 입력" /><button
       id="btn-send-chat"
       style="display: none"
     >

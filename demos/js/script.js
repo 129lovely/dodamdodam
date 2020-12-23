@@ -81,7 +81,8 @@ if (typeof SpeechRecognition === "undefined") {
   const recognition = new SpeechRecognition();
 
   recognition.continuous = false;
-  recognition.interimResults = false;
+  recognition.interimResults = true;
+  recognition.lang = "ko-KR";
 
   // result, start, error, end 이벤트 등록
   recognition.addEventListener("result", (event) => {
@@ -176,6 +177,8 @@ btnSendChat.addEventListener("click", () => {
   const text = `[${time}] ${_userid}: ${contents}`;
   connection.send(text);
   appendDIV(text);
+
+  chatText.value = "";
 });
 
 connection.onstream = (event) => {
