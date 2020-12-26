@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="Keywords" content="" />
+    <meta name="Description" content="" />
+    <title>화상회의</title>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+    rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+    crossorigin="anonymous" /> -->
+    <link rel="stylesheet" href="/demos/css/common.css" />
+    <link rel="stylesheet" href="/demos/css/5conference.css" />
+    <script src="../js/jquery-1.12.4.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="container">
+        <!-- 페이지 상단 화상회의 진행구간 -->
+        <div class="main-header">
+          <div class="main-header-inner">
+            <h1>회의 이름</h1>
+            <div class="right-box">
+              <div class="icon-box">
+                <i class="fas fa-user fa-1x"></i>
+                <span> 4명</span>
+              </div>
+              <div class="time-box">
+                <dl>
+                  <dt>회의 시간</dt>
+                  <dd>00:00:00</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- main-header -->
+        <div class="content">
+          <!-- 화상영상 4개 -->
+          <div class="l-area">
+            <div class="box">
+              <span>김수경</span>
+              <img src="../images/ex1.jpg" alt="" />
+            </div>
+            <div class="box">
+              <span>김영욱 </span>
+              <img src="../images/ex2.jpg" alt="" />
+            </div>
+            <div class="box">
+              <span>박성건</span>
+              <img src="../images/ex4.jpg" alt="" />
+            </div>
+            <div class="box">
+              <span>최인경</span>
+              <img src="../images/ex3.jpg" alt="" />
+            </div>
+          </div>
+          <!-- 채팅 창 -->
+          <div class="r-area">
+            <div class="scroll-view">
+              <ul>
+                <!-- 1째 채팅 -->
+                <li>
+                  <div class="thum">
+                    <img src="../images//ex1.jpg" alt="" />
+                  </div>
+                  <span>김수경</span>
+                  <p>안녕하세요.</p>
+                </li>
+                <!-- 2째 채팅 -->
+                <li>
+                  <div class="thum">
+                    <img src="../images//ex2.jpg" alt="" />
+                  </div>
+                  <span>김영욱</span>
+                  <p>안녕하세요, 반갑습니다.</p>
+                </li>
+                <!-- 3째 채팅 -->
+                <li>
+                  <div class="thum">
+                    <img src="../images//ex1.jpg" alt="" />
+                  </div>
+                  <span>김수경</span>
+                  <p>
+                    도담도담은 AI를 활용하여 완벽한 화상회의 플랫폼을
+                    제공합니다.
+                  </p>
+                </li>
+                <!-- 4째 채팅 -->
+                <li>
+                  <div class="thum">
+                    <img src="../images//ex1.jpg" alt="" />
+                  </div>
+                  <span>김영욱</span>
+                  <p>
+                    네, 맞아요! 오늘의 화상회의는 도담도담이 알아서 요약해줄
+                    겁니다.
+                  </p>
+                </li>
+                <!-- 5째 채팅 -->
+                <li>
+                  <div class="thum">
+                    <img src="../images//ex1.jpg" alt="" />
+                  </div>
+                  <span>김수경</span>
+                  <p>
+                    아니요! 알아서 요약하는 건 아니고, STT로 텍스트로 변환한
+                    후에 키워드 분석을 뽑아줄 겁니다.
+                  </p>
+                </li>
+                <!-- 6째 채팅 -->
+                <li>
+                  <div class="thum">
+                    <img src="../images//ex1.jpg" alt="" />
+                  </div>
+                  <span>김영욱</span>
+                  <p>아... 그렇군요. 그렇게 말하려 했습니다.</p>
+                </li>
+                <!-- 7째 채팅 -->
+                <li>
+                  <div class="thum">
+                    <img src="../images//ex1.jpg" alt="" />
+                  </div>
+                  <span>김수경</span>
+                  <p>앗, 암요~ 저도 장난친겁니다.</p>
+                </li>
+                <!-- 8째 채팅 -->
+                <li>
+                  <div class="thum">
+                    <img src="../images//ex1.jpg" alt="" />
+                  </div>
+                  <span>김수경</span>
+                  <p>어쨋든 회의 시작합시다. 지난 안건이 뭐였죠?</p>
+                </li>
+                <!-- 9째 채팅 -->
+                <li>
+                  <div class="thum">
+                    <img src="../images//ex1.jpg" alt="" />
+                  </div>
+                  <span>김영욱</span>
+                  <p>
+                    도담도담이 요약한 회의록을 보시면 nlp처리 키워드라는걸 알 수
+                    있네요.
+                  </p>
+                </li>
+                <!-- 10째 채팅 -->
+                <li>
+                  <div class="thum">
+                    <img src="../images//ex1.jpg" alt="" />
+                  </div>
+                  <span>김수경</span>
+                  <p>아 그렇군요? 키워드는 그렇고, 회의내용은 어떤거였죠?</p>
+                </li>
+                <!-- 11째 채팅 -->
+                <li>
+                  <div class="thum">
+                    <img src="../images//ex1.jpg" alt="" />
+                  </div>
+                  <span>김영욱</span>
+                  <p>여기 pdf 자료를 보시면 알 수 있습니다.</p>
+                </li>
+              </ul>
+            </div>
+            <!-- 채팅 입력 창 -->
+            <div class="input-area">
+              <input type="text" placeholder="메세지를 입력해주세요" />
+              <button type="button" class="js_btn">전송</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- container -->
+    </div>
+    <!-- wrap -->
+
+    <script>
+      $(function () {
+        $(".scroll-view").scrollTop(document.body.scrollHeight);
+
+        $(document).bind("keypress", function (e) {
+          if (e.keyCode === 13) {
+            $(".js_btn").trigger("click");
+          }
+        });
+
+        $(".js_btn").on("click", function () {
+          var getVal = $(".input-area input").val();
+          var elem = $(
+            "<li>" +
+              "<div class='thum'><img src='../images//ex1.jpg' alt=''></div>" +
+              "<span>최인경</span>" +
+              "<p>" +
+              getVal +
+              "</p>" +
+              "</li>"
+          );
+
+          $(".scroll-view ul").append(elem);
+          $(".scroll-view").scrollTop(document.body.scrollHeight);
+          $(".input-area input").val("");
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,191 @@
+/* CSS Document */
+* {
+  margin: 0;
+  padding: 0;
+}
+div {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  font-family: "nanumB", sans-serif;
+  font-size: 14px;
+  color: #000;
+  overflow-x: hidden;
+}
+ul,
+ol,
+li {
+  list-style: none;
+}
+img,
+hr {
+  border: none;
+}
+img {
+  vertical-align: top;
+  border: 0;
+}
+a {
+  vertical-align: top;
+  color: #000;
+}
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+article,
+aside,
+bdi,
+details,
+dialog,
+figcaption,
+figure,
+footer,
+header,
+main,
+mark,
+menuitem,
+meter,
+nav,
+progress,
+rp,
+rt,
+ruby,
+section,
+summary,
+time,
+wbr,
+body,
+p,
+div,
+ul,
+li,
+dl,
+dt,
+dd,
+ol,
+fieldset,
+textarea,
+input,
+select,
+table,
+th,
+td,
+address,
+cite,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+b,
+label,
+pre {
+  font-size: inherit;
+  color: inherit;
+  font-family: "nanumR", serif;
+}
+input,
+select {
+  vertical-align: top;
+  outline: none;
+}
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="password"] {
+  display: inline-block;
+  width: 100%;
+  font-size: 14px;
+  height: 40px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  box-sizing: border-box;
+  font-family: "Noto Sans KR", sans-serif;
+}
+select {
+  display: inline-block;
+  width: 100%;
+  height: 40px;
+  padding: 0 0 0 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: "Noto Sans KR", sans-serif;
+}
+textarea {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  box-sizing: border-box;
+}
+input[type="file"],
+input[type="image"],
+input[type="reset"],
+input[type="button"],
+input[type="submit"] {
+  cursor: pointer;
+}
+button {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.cf::before {
+  content: "";
+  display: block;
+  clear: both;
+}
+.cf::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.fs {
+  font-size: 0;
+}
+.clearfix {
+  zoom: 1;
+}
+
+@font-face {
+  font-family: "fun";
+  src: url("/demos/font/TVNBOLD.TTF");
+}
+@font-face {
+  font-family: "nanumB";
+  src: url("/demos/font/NANUMSQUAREB.TTF");
+}
+@font-face {
+  font-family: "nanumR";
+  src: url("/demos/font/NANUMSQUARER.TTF");
+}
+@font-face {
+  font-family: "nanumL";
+  src: url("/demos/font/NANUMSQUAREL.TTF");
+}

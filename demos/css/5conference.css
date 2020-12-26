@@ -1,0 +1,160 @@
+.wrap {
+}
+/* 컨테이너 */
+.wrap .container {
+  width: 1200px;
+  border: 5px solid #ffd258;
+  border-radius: 10px;
+  margin: 40px auto;
+  box-sizing: content-box;
+}
+/* 화상회의 헤더 */
+.container .main-header {
+  padding: 10px 20px;
+}
+
+/* 회의인원,회의시간 px설정 */
+.container .main-header .main-header-inner {
+  position: relative;
+  display: inline-block;
+  padding-right: 235px;
+}
+/* 회의이름 */
+.container .main-header .main-header-inner h1 {
+  display: inline-block;
+  color: #ffb900;
+  font-size: 36px;
+}
+/* 회의이름, 회의인원, 회의시간  위치 */
+.container .main-header .main-header-inner .right-box {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  display: inline-block;
+}
+/* 회의인원 */
+.container .main-header .main-header-inner .icon-box {
+  display: inline-block;
+  color: #646464;
+  margin-left: 10px;
+  border: 1px solid #a7a7a7;
+  padding: 5px 7px;
+  border-radius: 15px;
+}
+/* 회의시간 */
+.container .main-header .main-header-inner .time-box {
+  display: inline-block;
+  color: #646464;
+  margin-left: 10px;
+  border: 1px solid #a7a7a7;
+  padding: 5px 7px;
+  border-radius: 15px;
+}
+
+.container .main-header .main-header-inner .time-box dl dt,
+.container .main-header .main-header-inner .time-box dl dd {
+  display: inline-block;
+}
+/* 화상회의 - 내부여백설정 */
+.container .content {
+  font-size: 0;
+  padding: 0;
+}
+/* 화상회의 4칸 공간설정 */
+.container .content .l-area {
+  display: inline-block;
+  text-align: center;
+  width: 800px;
+}
+/* 화상회의-테두리 bold */
+.container .content .l-area .box {
+  position: relative;
+  display: inline-block;
+  width: 340px;
+  height: 280px;
+  margin: 1%;
+  border: 5px solid #ccc;
+}
+/* 화상회의 -참가자 이름표 */
+.container .content .l-area .box span {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #000;
+  opacity: 0.5;
+  color: #fff;
+  padding: 2px;
+  font-size: 14px;
+}
+/* 화상회의- 영상 송출 */
+.container .content .l-area .box img {
+  width: 100%;
+  height: 100%;
+}
+.container .content .r-area {
+  display: inline-block;
+  width: 400px;
+  vertical-align: top;
+  padding: 10px;
+}
+/* 채팅창- 스크롤바 */
+.container .content .r-area .scroll-view {
+  height: 500px;
+  overflow-y: scroll;
+}
+
+.container .content .r-area ul li {
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 10px;
+}
+/* 채팅창-채팅프로필 크기 및 색 설정 */
+.container .content .r-area ul li .thum {
+  border: 2px solid #ccc;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
+/* 채팅창-채팅프로필 이미지 비율 */
+.container .content .r-area ul li .thum img {
+  width: 100%;
+  height: 100%;
+}
+/* 채팅창-채팅프로필 이름 font크기 */
+.container .content .r-area ul li span {
+  padding-top: 5px;
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+}
+/* 채팅창-채팅말풍선 */
+.container .content .r-area ul li p {
+  margin-top: 5px;
+  font-size: 14px;
+  display: inline-block;
+  background-color: #dbd9d9;
+  border-radius: 15px;
+  padding: 5px;
+  color: rgb(39, 39, 39);
+}
+/* 채팅창- 채팅메세지 입력 */
+.container .content .r-area .input-area {
+  margin-top: 10px;
+}
+.container .content .r-area .input-area input {
+  width: 80%;
+  height: 40px;
+  float: left;
+}
+/* 채팅창- 채팅 입력 버튼 */
+.container .content .r-area .input-area button {
+  width: 20%;
+  height: 40px;
+  float: right;
+  background-color: #ffb900;
+}

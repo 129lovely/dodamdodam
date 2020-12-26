@@ -1,0 +1,59 @@
+/* 환영멘트 */
+/* 안녕하세요 */
+h1 {
+  font-family: "fun", serif;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 80px;
+  color: #6e6e6e;
+}
+/* 도담도담에 오신걸 환영합니다 */
+h2 {
+  font-family: "fun", serif;
+  text-align: center;
+  color: #6e6e6e;
+}
+h2 span:nth-child(1) {
+  color: #ffb900;
+  font-size: 50px;
+}
+h2 span:nth-child(2) {
+  font-family: "nanumR", serif;
+  font-size: 25px;
+  color: #6e6e6e;
+}
+/* 먼저 본인확인을 진행하겠습니다. */
+h3 {
+  margin-top: 20px;
+  text-align: center;
+  font-family: "nanumR", serif;
+  font-size: 25px;
+  color: #6e6e6e;
+}
+h3 span:nth-child(2) {
+  font-weight: bolder;
+}
+/* 안내멘트 : 먼저 본인확인을~ */
+h4 {
+  text-align: center;
+  font-family: "nanumR", serif;
+  font-size: 25px;
+  color: #6e6e6e;
+}
+/* 영상- 신분확인 영상 */
+.container {
+  width: 480px;
+  border: 5px solid #ffd258;
+  border-radius: 10px;
+  margin: 40px auto;
+  box-sizing: content-box;
+}
+
+.search-bar {
+  width: 400px;
+}
+/* 이름입력바 간격 설정 */
+.namebox {
+  margin-right: 15px;
+  width: 300px;
+}

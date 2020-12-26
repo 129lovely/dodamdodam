@@ -1,0 +1,31 @@
+/* 안내멘트 */
+h1 {
+  text-align: center;
+  margin-top: 50px;
+}
+h1 span:nth-child(1) {
+  color: #ffaa28;
+  font-family: "fun", serif;
+  font-size: 70px;
+}
+h1 span:nth-child(2) {
+  color: #6e6e6e;
+  font-family: "fun", serif;
+  font-size: 70px;
+}
+/* 영상-화상회의 영상 */
+.container {
+  width: 480px;
+  border: 5px solid #ffd258;
+  border-radius: 10px;
+  margin: 40px auto;
+  box-sizing: content-box;
+}
+/* 회의링크 입력바 */
+.search-bar {
+  width: 500px;
+}
+/* 지금참가하기 버튼 */
+.dd-pbtn {
+  text-align: center;
+}

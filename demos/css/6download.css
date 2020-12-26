@@ -1,0 +1,60 @@
+/* 안내멘트 */
+h1 {
+  text-align: center;
+  margin-top: 200px;
+  color: #6e6e6e;
+  font-family: "fun", serif;
+  font-size: 70px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 25px;
+  color: #505050;
+}
+
+/* pdf 다운로드 글씨 */
+.container {
+  width: 250px;
+  height: 100px;
+  margin: 20% auto;
+  color: #6e6e6e;
+  font-size: 1rem;
+  font-family: "nanumR" sans-serif;
+  font-weight: bold;
+}
+p {
+  text-align: center;
+}
+/* pdf 다운로드 버튼 */
+.button {
+  font-size: 1.5rem;
+  border: 2px solid #ffaa28;
+  border-radius: 100px;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  margin: 10% auto;
+  transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+/* pdf 다운로드 아이콘 */
+.icon {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+/* pdf 다운로드 효과 Hover */
+.button:hover {
+  width: 125px;
+  background-color: #ffaa28;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+  color: #505050;
+  transition: 0.3s;
+}
+
+.button:active {
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: 0.05s;
+}
