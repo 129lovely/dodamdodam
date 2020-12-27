@@ -44,7 +44,7 @@
     </div>
 
     <!-- 이름 입력 창 -->
-    <form method="POST" onsubmit="return validateForm();">
+    <form method="POST" onsubmit="validateForm(event);">
       <div class="mx-auto search-bar input-group mb-3">
         <input id="userid" type="hidden" value="" name="userid" />
         <input
@@ -75,14 +75,13 @@
       const connection = new RTCMultiConnection();
       document.getElementById("userid").value = connection.token();
 
-      function validateForm() {
+      function validateForm(event) {
         const form = document.forms[0];
         // 이름 공백 제거했을 때 빈칸인지 검사
         const username = document.getElementById("input-name-txt");
         if (username.value.trim() == "") {
           alert("이름을 입력해주세요!");
-          name.focus();
-          return false;
+          event.preventDefault();
         }
         // next= 에 따라 action 다르게
         const q = location.href.split("?next=")[1];

@@ -56,7 +56,7 @@ function appendDIV(event) {
   p.innerText = data.contents;
   const span = document.createElement("span");
   span.classList.add("current-time");
-  span.textContent = data.time;
+  span.textContent = getDate();
   divChatContainer.appendChild(p);
 
   if (event.userid == userid) {
@@ -121,7 +121,9 @@ if (typeof SpeechRecognition === "undefined") {
         // send chat to socket
         const data = {
           roomid: roomid,
-          time: getDate(),
+          time: new Date()
+            .toTimeString()
+            .replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1"),
           userid: userid,
           username: username,
           contents: res[0].transcript,
@@ -187,7 +189,7 @@ function chatTextEventListener() {
   // send chat to socket
   const data = {
     roomid: roomid,
-    time: getDate(),
+    time: new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1"),
     userid: userid,
     username: username,
     contents: chatText.value,

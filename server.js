@@ -3,7 +3,7 @@
 const winston = require("./demos/js/winston");
 const ejs = require("ejs");
 const qs = require("querystring");
-const PythonShell = require("python-shell");
+const { PythonShell } = require("python-shell");
 
 const fs = require("fs");
 const path = require("path");
@@ -199,6 +199,22 @@ function serverHandler(request, response) {
 
       if (request.url.indexOf("/report") != -1) {
         const { roomid } = qs.parse(url.parse(request.url).query);
+
+        // run python shell
+        PythonShell.run(
+          __dirname + "/demos/python/summarization.py",
+          null,
+          function (err, results) {
+            if (err) throw err;
+            // python의 print값들을 results 리스트에 모아서 전달
+            // winston.error(err);
+            // winston.debug("results:");
+            // winston.debug(results);
+            console.log(err);
+            console.log(results);
+          }
+        );
+
         let htmlContent = fs.readFileSync(
           __dirname + "/demos/report.ejs",
           "utf-8"
@@ -215,20 +231,20 @@ function serverHandler(request, response) {
       /**
        * 최종 리포트 파일 리턴
        */
-      if (request.url == "/api/report") {
-        const roomid = request.url.split("/")[3]; // url에서 roomid 가져오기
-        const chat_data = fs.readFileSync(__dirname + "/logs/" + roomid);
+      //   if (request.url == "/api/report") {
+      //     const roomid = request.url.split("/")[3]; // url에서 roomid 가져오기
+      //     const chat_data = fs.readFileSync(__dirname + "/logs/" + roomid);
 
-        //한글도 데이터 오갈수 있음 test.py를 실행시키면 확인할 수 있음
-        const options = {
-          mode: "text",
-          pythonPath: "",
-          encoding: "utf8",
-          pythonOptions: ["-u"],
-          scriptPath: "",
-          args: [escape(data.toString())],
-        };
-      }
+      //     //한글도 데이터 오갈수 있음 test.py를 실행시키면 확인할 수 있음
+      //     const options = {
+      //       mode: "text",
+      //       pythonPath: "",
+      //       encoding: "utf8",
+      //       pythonOptions: ["-u"],
+      //       scriptPath: "",
+      //       args: [escape(data.toString())],
+      //     };
+      //   }
     }
 
     // ===========================================================
