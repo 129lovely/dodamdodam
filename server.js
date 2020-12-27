@@ -197,13 +197,19 @@ function serverHandler(request, response) {
         return response.end(html, "utf-8");
       }
 
-      if (request.url == "/report") {
-        return fs.readFile(__dirname + "/demos/report.html", (err, data) => {
-          if (err) {
-            throw err;
-          }
-          response.end(data);
+      if (request.url.indexOf("/report") != -1) {
+        const { roomid } = qs.parse(url.parse(request.url).query);
+        let htmlContent = fs.readFileSync(
+          __dirname + "/demos/report.ejs",
+          "utf-8"
+        );
+        let html = ejs.render(htmlContent, {
+          roomid: roomid,
         });
+        response.writeHead(201, {
+          "Content-Type": "text/html;charset=utf-8",
+        });
+        return response.end(html, "utf-8");
       }
 
       /**

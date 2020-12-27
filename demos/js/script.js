@@ -251,7 +251,7 @@ btnExit.addEventListener("click", () => {
   connection.closeSocket();
 
   // 리포트 페이지로 이동
-  location.href = "/report";
+  location.href = `/report?roomid=${roomid}`;
 });
 
 connection.onstream = (event) => {
