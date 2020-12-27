@@ -42,7 +42,7 @@
         <input
           type="text"
           class="form-control rounded-pill namebox"
-          placeholder="공유 받은 회의 링크를 입력하세요"
+          placeholder="공유 받은 회의 ID를 입력하세요"
           aria-label="Recipient's username"
           aria-describedby="button-addon2"
         />
@@ -53,6 +53,7 @@
           class="mx-auto btn btn-warning rounded-pill"
           type="button"
           id="button-addon2"
+          onclick="location.href='/room?roomid=<%= roomid %>&username=<%= username %>&userid=<%= userid %>'"
         >
           지금 참가하기
         </button>

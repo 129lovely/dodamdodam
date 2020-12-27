@@ -41,21 +41,20 @@
     <!-- 회의 준비 완료 멘트 -->
     <h2>회의 준비 완료</h2>
     <!-- 회의링크 -->
-    <a href="#"
-      ><h3><span>https://dodamdodam.site/room?q=<%= roomid %></span></h></a
-    >
+  <h3><span>회의 ID: <%= roomid %></span></h>
     <!-- 회의참가버튼 -->
-    <form action="">
+    
       <div class="mx-auto mt-3 dd-pbtn mb-3">
         <button
           class="mx-auto btn btn-warning rounded-pill"
           type="button"
-          id="button-addon2"
+		  id="button-addon2"
+		 onclick="location.href='/room?roomid=<%= roomid %>&username=<%= username %>&userid=<%= userid %>'"
         >
           <span>지금 참가하기</span>
         </button>
       </div>
-	</form>
+	
 
 	<!-- javascript library -->
     <script src="/demos/js/jquery-1.12.4.min.js"></script>

@@ -2,6 +2,7 @@
 // http://localhost:9001
 const winston = require("./demos/js/winston");
 const ejs = require("ejs");
+const qs = require("querystring");
 const PythonShell = require("python-shell");
 
 const fs = require("fs");
@@ -83,13 +84,14 @@ function serverHandler(request, response) {
           body += chunk.toString();
         });
         return request.on("end", () => {
-          let username = decodeURIComponent(body).split("=")[1];
+          const { username, userid } = qs.parse(decodeURIComponent(body));
           let htmlContent = fs.readFileSync(
             __dirname + "/demos/new.ejs",
             "utf-8"
           );
           let html = ejs.render(htmlContent, {
             username: username,
+            userid: userid,
             roomid: Math.random().toString(36).substring(2, 10),
           });
           response.writeHead(201, {
@@ -105,13 +107,14 @@ function serverHandler(request, response) {
           body += chunk.toString();
         });
         return request.on("end", () => {
-          let username = decodeURIComponent(body).split("=")[1];
+          const { username, userid } = qs.parse(decodeURIComponent(body));
           let htmlContent = fs.readFileSync(
             __dirname + "/demos/join.ejs",
             "utf-8"
           );
           let html = ejs.render(htmlContent, {
             username: username,
+            userid: userid,
             roomid: Math.random().toString(36).substring(2, 10),
           });
           response.writeHead(201, {
@@ -176,31 +179,23 @@ function serverHandler(request, response) {
         });
       }
 
-      if (request.url.indexOf("/new") != -1) {
-        return fs.readFile(__dirname + "/demos/new.html", (err, data) => {
-          if (err) {
-            throw err;
-          }
-          response.end(data);
-        });
-      }
-
-      if (request.url.indexOf("/join") != -1) {
-        return fs.readFile(__dirname + "/demos/join.html", (err, data) => {
-          if (err) {
-            throw err;
-          }
-          response.end(data);
-        });
-      }
-
       if (request.url.indexOf("/room") != -1) {
-        return fs.readFile(__dirname + "/demos/room.html", (err, data) => {
-          if (err) {
-            throw err;
-          }
-          response.end(data);
+        const { roomid, username, userid } = qs.parse(
+          url.parse(request.url).query
+        );
+        let htmlContent = fs.readFileSync(
+          __dirname + "/demos/room.ejs",
+          "utf-8"
+        );
+        let html = ejs.render(htmlContent, {
+          roomid: roomid,
+          username: username,
+          userid: userid,
         });
+        response.writeHead(201, {
+          "Content-Type": "text/html;charset=utf-8",
+        });
+        return response.end(html, "utf-8");
       }
 
       if (request.url == "/report") {

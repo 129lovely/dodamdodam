@@ -32,10 +32,43 @@ const btnSendChat = document.getElementById("btn-send-chat");
 const chatText = document.getElementById("txt-chat");
 
 function appendDIV(event) {
-  const div = document.createElement("div");
-  div.innerHTML = event.data || event;
-  chatContainer.appendChild(div);
-  chatContainer.parentElement.scrollTop = chatContainer.scrollHeight;
+  const ul = document.querySelector("chat-list");
+  const li = document.createElement("li");
+
+  const divThum = document.createElement("div");
+  divThum.classList.add("thum");
+  li.appendChild(divThum);
+
+  const img = document.createElement("img");
+  img.src = "/demos/images/ex1.jpg"; // 서버에서 넘어온 데이터 src로 할당
+
+  const divChatContainer = document.createElement("div");
+  div.classList.add("chat-container");
+  li.appendChild(div);
+
+  const p = document.createElement("p");
+  p.innerText = event;
+  div.appendChild(p);
+
+  const span = document.createElement("span");
+  span.classList.add("current-time");
+  span.textContent = getDate();
+
+  const chatContainer = document.querySelector(".chat-container");
+
+  if (event.userid === userid) {
+    li.classList.add("my-message");
+    divChatContainer.prepend(span);
+  } else {
+    divChatContainer.appendChild(span);
+  }
+
+  ul.appendChild(li);
+
+  //   const div = document.createElement("div");
+  //   div.innerHTML = event.data || event;
+  //   chatContainer.appendChild(div);
+  //   chatContainer.parentElement.scrollTop = chatContainer.scrollHeight;
 }
 
 // ===========================================================
@@ -43,23 +76,16 @@ function appendDIV(event) {
 // required settings
 //
 // ===========================================================
-// get userid
-let userid = document.getElementById("txt-userid");
-userid.value = connection.token();
-
-// get roomid
-let roomid = document.getElementById("txt-roomid");
-roomid.value = (Math.random() * 1000).toString().replace(".", "");
+const username = document.getElementById("txt-username").value; // get username
+const userid = document.getElementById("txt-userid").value; // get userid
+const roomid = document.getElementById("txt-roomid").innerText; // get roomid
 
 // enter the room
-document.getElementById("btn-open-or-join-room").onclick = function () {
-  this.disabled = true;
-  userid.disabled = true;
-  roomid.disabled = true;
-
-  connection.userid = userid.value;
-  connection.openOrJoin(roomid.value || "predefiend-roomid");
-};
+function enterRoom() {
+  connection.userid = userid;
+  connection.extra.username = username;
+  connection.openOrJoin(roomid);
+}
 
 // ===========================================================
 //
@@ -88,34 +114,19 @@ if (typeof SpeechRecognition === "undefined") {
   recognition.addEventListener("result", (event) => {
     for (const res of event.results) {
       if (res.isFinal) {
-        const _roomid = roomid.value;
         const time = new Date()
           .toTimeString()
           .replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
-        const _userid = userid.value;
         const contents = res[0].transcript;
 
         // send chat to socket
-        const text = `[${time}] ${_userid}: ${contents}`;
+        const text = `[${time}] ${username}: ${contents}`;
         connection.send(text);
         appendDIV(text);
 
-        // post chat to server
-        const data = {
-          roomid: _roomid,
-          time: time,
-          userid: _userid,
-          contents: res[0].transcript,
-        };
-        fetch("/api/chat", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
-          body: JSON.stringify(data),
-        }).then((response) => {
-          console.log(response.status + " " + response.statusText);
-        });
+        console.log(text);
+
+        sendChatAjax(time, res[0].transcript);
       }
     }
   });
@@ -163,35 +174,62 @@ if (typeof SpeechRecognition === "undefined") {
 // optional settings
 //
 // ===========================================================
-const localVideoContainer = document.getElementById("local-videos-container");
-const remoteVideoContainer = document.getElementById("remote-videos-container");
+const videoContainer = document.getElementById("videos-container");
 
 btnSendChat.addEventListener("click", () => {
   const time = new Date()
     .toTimeString()
     .replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
-  const _userid = userid.value;
   const contents = chatText.value;
 
   // send chat to socket
-  const text = `[${time}] ${_userid}: ${contents}`;
+  const text = `[${time}] ${userid}: ${contents}`;
   connection.send(text);
   appendDIV(text);
+
+  sendChatAjax(time, res[0].transcript);
 
   chatText.value = "";
 });
 
+// post chat to server
+function sendChatAjax(time, contents) {
+  const data = {
+    roomid: roomid,
+    time: time,
+    userid: userid,
+    username: username,
+    contents: contents,
+  };
+  fetch("/api/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify(data),
+  }).then((response) => {
+    console.log(response.status + " " + response.statusText);
+  });
+}
+
 connection.onstream = (event) => {
-  const video = event.mediaElement;
+  const video = getHTMLMediaElement(event.mediaElement, {
+    title: event.extra.username,
+    buttons: [],
+    width: "50%",
+    showOnMouseEnter: true,
+  });
 
-  if (event.type === "local") {
-    localVideoContainer.appendChild(video);
-  }
-  if (event.type === "remote") {
-    remoteVideoContainer.appendChild(video);
-  }
+  video.id = event.userid;
+  videoContainer.appendChild(video);
 
-  // activate stt button
-  btnStt.style.display = "inline";
-  btnSendChat.style.display = "inline";
+  // activate stt & chat button
+  btnStt.disabled = false;
+  btnSendChat.disabled = false;
 };
+
+connection.onleave = function (event) {
+  document.getElementById(event.userid).remove();
+};
+
+enterRoom();

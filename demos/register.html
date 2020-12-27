@@ -46,6 +46,7 @@
     <!-- 이름 입력 창 -->
     <form method="POST" onsubmit="return validateForm();">
       <div class="mx-auto search-bar input-group mb-3">
+        <input id="userid" type="hidden" value="" name="userid" />
         <input
           id="input-name-txt"
           type="text"
@@ -71,11 +72,14 @@
     <script src="/dist/RTCMultiConnection.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
+      const connection = new RTCMultiConnection();
+      document.getElementById("userid").value = connection.token();
+
       function validateForm() {
         const form = document.forms[0];
         // 이름 공백 제거했을 때 빈칸인지 검사
-        const name = document.getElementById("input-name-txt");
-        if (name.value.trim() == "") {
+        const username = document.getElementById("input-name-txt");
+        if (username.value.trim() == "") {
           alert("이름을 입력해주세요!");
           name.focus();
           return false;
