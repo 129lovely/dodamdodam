@@ -41,8 +41,7 @@ h4 {
   color: #6e6e6e;
 }
 /* 영상- 신분확인 영상 */
-.container {
-  width: 480px;
+#video {
   border: 5px solid #ffd258;
   border-radius: 10px;
   margin: 40px auto;

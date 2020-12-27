@@ -1,6 +1,7 @@
 // http://127.0.0.1:9001
 // http://localhost:9001
 const winston = require("./demos/js/winston");
+const ejs = require("ejs");
 const PythonShell = require("python-shell");
 
 const fs = require("fs");
@@ -72,14 +73,56 @@ function serverHandler(request, response) {
     // config api routers
     //
     // ===========================================================
-    const api_url = filename.split("dodamdodam")[1]; // path 가져오기
-    winston.info(request.method + " " + api_url); // request.method path
+    winston.info(request.method + " " + request.url); // request.method path
 
+    // POST METHOD
     if (request.method == "POST") {
-      /**
-       * json 채팅 로그 파일 생성
-       */
-      if (api_url == "/api/chat") {
+      if (request.url.indexOf("/new") != -1) {
+        let body = "";
+        request.on("data", (chunk) => {
+          body += chunk.toString();
+        });
+        return request.on("end", () => {
+          let username = decodeURIComponent(body).split("=")[1];
+          let htmlContent = fs.readFileSync(
+            __dirname + "/demos/new.ejs",
+            "utf-8"
+          );
+          let html = ejs.render(htmlContent, {
+            username: username,
+            roomid: Math.random().toString(36).substring(2, 10),
+          });
+          response.writeHead(201, {
+            "Content-Type": "text/html;charset=utf-8",
+          });
+          response.end(html, "utf-8");
+        });
+      }
+
+      if (request.url.indexOf("/join") != -1) {
+        let body = "";
+        request.on("data", (chunk) => {
+          body += chunk.toString();
+        });
+        return request.on("end", () => {
+          let username = decodeURIComponent(body).split("=")[1];
+          let htmlContent = fs.readFileSync(
+            __dirname + "/demos/join.ejs",
+            "utf-8"
+          );
+          let html = ejs.render(htmlContent, {
+            username: username,
+            roomid: Math.random().toString(36).substring(2, 10),
+          });
+          response.writeHead(201, {
+            "Content-Type": "text/html;charset=utf-8",
+          });
+          response.end(html, "utf-8");
+        });
+      }
+
+      // create json log file
+      if (request.url == "/api/chat") {
         let body = "";
         request.on("data", (chunk) => {
           body += chunk.toString();
@@ -111,16 +154,69 @@ function serverHandler(request, response) {
           response.end("created");
         });
       }
-      // 2. 얼굴 인식
-      // 3. 집중도 인식
     }
 
+    // GET METHOD
     if (request.method == "GET") {
+      if (request.url == "/") {
+        return fs.readFile(__dirname + "/demos/index.html", (err, data) => {
+          if (err) {
+            throw err;
+          }
+          response.end(data);
+        });
+      }
+
+      if (request.url.indexOf("/register") != -1) {
+        return fs.readFile(__dirname + "/demos/register.html", (err, data) => {
+          if (err) {
+            throw err;
+          }
+          response.end(data);
+        });
+      }
+
+      if (request.url.indexOf("/new") != -1) {
+        return fs.readFile(__dirname + "/demos/new.html", (err, data) => {
+          if (err) {
+            throw err;
+          }
+          response.end(data);
+        });
+      }
+
+      if (request.url.indexOf("/join") != -1) {
+        return fs.readFile(__dirname + "/demos/join.html", (err, data) => {
+          if (err) {
+            throw err;
+          }
+          response.end(data);
+        });
+      }
+
+      if (request.url.indexOf("/room") != -1) {
+        return fs.readFile(__dirname + "/demos/room.html", (err, data) => {
+          if (err) {
+            throw err;
+          }
+          response.end(data);
+        });
+      }
+
+      if (request.url == "/report") {
+        return fs.readFile(__dirname + "/demos/report.html", (err, data) => {
+          if (err) {
+            throw err;
+          }
+          response.end(data);
+        });
+      }
+
       /**
        * 최종 리포트 파일 리턴
        */
-      if (api_url.indexOf("/api/report") != -1) {
-        const roomid = api_url.split("/")[3]; // url에서 roomid 가져오기
+      if (request.url == "/api/report") {
+        const roomid = request.url.split("/")[3]; // url에서 roomid 가져오기
         const chat_data = fs.readFileSync(__dirname + "/logs/" + roomid);
 
         //한글도 데이터 오갈수 있음 test.py를 실행시키면 확인할 수 있음

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>신원확인</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/demos/css/common.css" />
+    <link rel="stylesheet" href="/demos/css/2identification.css" />
+  </head>
+
+  <body>
+    <!-- 환영멘트 -->
+    <h1>안녕하세요 :)</h1>
+    <h2><span>도담도담</span><span> 에 오신걸 환영합니다!</span></h2>
+    <h3>
+      <span>먼저</span><span> 본인확인</span><span>을 진행하겠습니다.</span>
+    </h3>
+    <h4>얼굴을 중앙에 두고 화면을 응시해주세요.</h4>
+
+    <!-- 영상-신원확인영상 -->
+    <div class="wrap container">
+      <div class="two-peace d-flex justify-content-center">
+        <video id="video" width="350" height="260" autoplay="true"></video>
+      </div>
+
+      <div class="d-none">
+        <canvas id="canvas" width="350" height="260"></canvas>
+      </div>
+
+      <!-- <button id="btn-camera">1. 비디오출력</button> -->
+      <!-- <button id="btn-capture">2. 캡쳐</button> -->
+
+      <!-- 캡쳐한 이미지 -->
+      <!-- <div id="output">
+        <div id="images"></div>
+      </div> -->
+    </div>
+
+    <!-- 이름 입력 창 -->
+    <form method="POST" onsubmit="return validateForm();">
+      <div class="mx-auto search-bar input-group mb-3">
+        <input
+          id="input-name-txt"
+          type="text"
+          name="username"
+          class="form-control rounded-pill namebox"
+          placeholder="이름을 입력하세요"
+          aria-label="Recipient's username"
+          aria-describedby="button-addon2"
+        />
+        <!-- 확인 버튼 -->
+        <button
+          id="input-name-btn"
+          class="btn btn-outline-secondary rounded-pill"
+          type="submit"
+        >
+          확인
+        </button>
+      </div>
+    </form>
+
+    <!-- javascript library -->
+    <script src="/demos/js/jquery-1.12.4.min.js"></script>
+    <script src="/dist/RTCMultiConnection.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      function validateForm() {
+        const form = document.forms[0];
+        // 이름 공백 제거했을 때 빈칸인지 검사
+        const name = document.getElementById("input-name-txt");
+        if (name.value.trim() == "") {
+          alert("이름을 입력해주세요!");
+          name.focus();
+          return false;
+        }
+        // next= 에 따라 action 다르게
+        const q = location.href.split("?next=")[1];
+        form.action = "/" + q;
+        return true;
+      }
+
+      // 비디오 처리
+      $(function () {
+        navigator.getUserMedia =
+          navigator.getUserMedia ||
+          navigator.webkitGetUserMedia ||
+          navigator.mozGetUserMedia;
+
+        const videoEl = document.getElementById("video");
+        const canvasEl = document.getElementById("canvas");
+        const width = 350;
+        const height = 260;
+
+        videoEl.width = width;
+        videoEl.height = height;
+
+        // 비디오 가져오기 시작
+        navigator.getUserMedia(
+          { audio: false, video: true },
+          (stream) => {
+            // 카메라 연결 성공
+            videoEl.srcObject = stream;
+          },
+          (err) => {
+            // 카메라 연결 실패
+            console.log("error", arguments);
+          }
+        );
+
+        /**
+         * 비디오 이미지 캡쳐 및 서버 전송
+         */
+        function capture() {
+          // canvas에 그리기 위한 context(그리기, 이미 넣는 객체/메소드/속성 제공)
+          const context = canvasEl.getContext("2d");
+          // 이미지를 canvas에 넣기
+          context.drawImage(videoEl, 0, 0, width, height);
+
+          // todo-서버 전송
+          const captured_img = canvasEl.toDataURL("image/png");
+        }
+      });
+    </script>
+  </body>
+</html>

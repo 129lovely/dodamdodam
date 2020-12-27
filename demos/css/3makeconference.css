@@ -15,8 +15,7 @@ h1 span:nth-child(2) {
 }
 
 /* 영상- 화상회의 영상 */
-.container {
-  width: 480px;
+#video {
   border: 5px solid #ffd258;
   border-radius: 10px;
   margin: 40px auto;
