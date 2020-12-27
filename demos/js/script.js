@@ -38,12 +38,14 @@ function appendDIV(event) {
 
   const li = document.createElement("li");
 
-  const divThum = document.createElement("div");
-  divThum.classList.add("thum");
-  const img = document.createElement("img");
-  img.src = "/demos/images/ex1.jpg"; // 서버에서 넘어온 데이터 src로 할당
-  divThum.appendChild(img);
-  li.appendChild(divThum);
+  if (event.userid != userid) {
+    const divThum = document.createElement("div");
+    divThum.classList.add("thum");
+    const img = document.createElement("img");
+    img.src = "/demos/images/ex1.jpg"; // 서버에서 넘어온 데이터 src로 할당
+    divThum.appendChild(img);
+    li.appendChild(divThum);
+  }
 
   const spanName = document.createElement("span");
   spanName.innerText = data.username;

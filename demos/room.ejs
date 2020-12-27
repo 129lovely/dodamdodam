@@ -29,6 +29,47 @@
         border: none;
       }
 
+      ul p {
+        margin-bottom: 0 !important;
+        padding: 10px !important;
+      }
+
+      body
+        > div
+        > div
+        > div.content.row
+        > div.r-area.col-4
+        > div.scroll-view
+        > ul
+        > li.my-message
+        > div
+        > span {
+        text-align: right;
+      }
+
+      body
+        > div
+        > div
+        > div.content.row
+        > div.r-area.col-4
+        > div.scroll-view
+        > ul
+        > li:nth-child(1)
+        > div.chat-container
+        > span {
+        padding-left: 0;
+        margin-left: 5px;
+      }
+
+      .chat-list span {
+        padding-right: 5px;
+        padding-left: 5px;
+      }
+
+      .my-message {
+        padding-right: 5px !important;
+      }
+
       /* .media-container h2 {
         color: black !important;
       } */
@@ -96,11 +137,10 @@
                 </li>
                 <!-- 나 -->
                 <li class="my-message">
-                  <div class="thum">
-                    <img src="/demos/images//ex1.jpg" alt="" />
-                  </div>
                   <span>배민진</span>
+
                   <div class="chat-container">
+                    <span>오전 11:25</span>
                     <p>배민진팀 화이팅</p>
                   </div>
                 </li>
