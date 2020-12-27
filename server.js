@@ -115,7 +115,6 @@ function serverHandler(request, response) {
           let html = ejs.render(htmlContent, {
             username: username,
             userid: userid,
-            roomid: Math.random().toString(36).substring(2, 10),
           });
           response.writeHead(201, {
             "Content-Type": "text/html;charset=utf-8",
