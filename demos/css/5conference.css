@@ -183,11 +183,11 @@
   align-items: flex-end;
 }
 
-.container .content .r-area ul li.my-message .current-time {
+/* .container .content .r-area ul li.my-message .current-time {
   margin-right: 10px;
   font-size: 12px;
   color: #888;
-}
+} */
 
 .container .content .r-area ul li .chat-container {
   display: flex;

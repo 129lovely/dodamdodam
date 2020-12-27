@@ -27,7 +27,6 @@ connection.onmessage = (event) => {
   appendDIV(event.data);
 };
 
-const chatContainer = document.querySelector(".chat-output");
 const btnSendChat = document.getElementById("btn-send-chat");
 const chatText = document.getElementById("txt-chat");
 
@@ -73,7 +72,7 @@ function appendDIV(event) {
   //   const div = document.createElement("div");
   //   div.innerHTML = event.data || event;
   //   chatContainer.appendChild(div);
-  //   chatContainer.parentElement.scrollTop = chatContainer.scrollHeight;
+  ul.parentElement.scrollTop = ul.scrollHeight;
 }
 
 // ===========================================================
@@ -117,7 +116,6 @@ if (typeof SpeechRecognition === "undefined") {
 
   // result, start, error, end 이벤트 등록
   recognition.addEventListener("result", (event) => {
-    console.log(event.results);
     for (const res of event.results) {
       if (res.isFinal) {
         // send chat to socket
@@ -181,7 +179,11 @@ if (typeof SpeechRecognition === "undefined") {
 // ===========================================================
 const videoContainer = document.getElementById("videos-container");
 
-btnSendChat.addEventListener("click", () => {
+function chatTextEventListener() {
+  if (chatText.value.trim() == "") {
+    alert("내용을 입력해주세요");
+    return;
+  }
   // send chat to socket
   const data = {
     roomid: roomid,
@@ -195,7 +197,15 @@ btnSendChat.addEventListener("click", () => {
   sendChatAjax(data);
 
   chatText.value = "";
+}
+
+chatText.addEventListener("keypress", (event) => {
+  if (event.code == "Enter") {
+    chatTextEventListener();
+  }
 });
+
+btnSendChat.addEventListener("click", chatTextEventListener);
 
 // post chat to server
 function sendChatAjax(data) {
@@ -218,12 +228,31 @@ const getDate = () => {
 };
 
 const checkMorningOrAfternoon = (hours) => {
-  if (hours >= 12 || hours < 24) {
+  if (hours >= 12 && hours < 24) {
     return "오후";
   } else {
     return "오전";
   }
 };
+
+const btnExit = document.getElementById("btn-exit");
+btnExit.addEventListener("click", () => {
+  // disconnect with all users
+  connection.getAllParticipants().forEach(function (pid) {
+    connection.disconnectWith(pid);
+  });
+
+  // stop all local cameras
+  connection.attachStreams.forEach(function (localStream) {
+    localStream.stop();
+  });
+
+  // close socket.io connection
+  connection.closeSocket();
+
+  // 리포트 페이지로 이동
+  location.href = "/report";
+});
 
 connection.onstream = (event) => {
   const video = getHTMLMediaElement(event.mediaElement, {
@@ -239,9 +268,17 @@ connection.onstream = (event) => {
   // activate stt & chat button
   btnStt.disabled = false;
   btnSendChat.disabled = false;
+
+  // 인원수 변경
+  const total_num = connection.getAllParticipants().length + 1;
+  document.getElementById("total-num").textContent = total_num;
 };
 
 connection.onleave = function (event) {
+  //   const ul = document.querySelector(".chat-list");
+  //   const span = document.createElement("span");
+  //   span.innerText = `${event.userid}님이 나가셨습니다`;
+  //   ul.appendChild(span);
   document.getElementById(event.userid).remove();
 };
 

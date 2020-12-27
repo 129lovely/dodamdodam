@@ -70,6 +70,9 @@
         padding-right: 5px !important;
       }
 
+      .js_btn {
+        font-size: 14px !important;
+      }
       /* .media-container h2 {
         color: black !important;
       } */
@@ -100,18 +103,21 @@
               회의실 ID:
               <span id="txt-roomid"><%= roomid %></span>
             </h1>
-            <button id="btn-stt" disabled>음성인식 시작하기</button>
+            <button id="btn-stt" class="btn btn-danger" disabled>
+              음성인식 시작하기
+            </button>
+            <button id="btn-exit" class="btn btn-primary">회의실 나가기</button>
             <div class="right-box">
               <div class="icon-box">
                 <i class="fas fa-user fa-1x"></i>
-                <span> 4명</span>
+                <span id="total-num"></span>명
               </div>
-              <div class="time-box">
+              <!-- <div class="time-box">
                 <dl>
                   <dt>회의 시간</dt>
                   <dd>00:00:00</dd>
                 </dl>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
