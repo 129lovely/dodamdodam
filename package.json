@@ -51,6 +51,7 @@
     "app-root-path": "^3.0.0",
     "canvas-designer": "latest",
     "detectrtc": "latest",
+    "ejs": "^3.1.5",
     "fbr": "latest",
     "getstats": "latest",
     "multistreamsmixer": "latest",
