@@ -11,26 +11,14 @@
   padding: 10px 20px;
 }
 
-/* 회의인원,회의시간 px설정 */
-.container .main-header .main-header-inner {
-  position: relative;
-  display: inline-block;
-  padding-right: 235px;
-}
 /* 회의이름 */
 .container .main-header .main-header-inner h1 {
   display: inline-block;
   color: #ffb900;
   font-size: 36px;
+  font-weight: bolder;
 }
-/* 회의이름, 회의인원, 회의시간  위치 */
-.container .main-header .main-header-inner .right-box {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 0;
-  display: inline-block;
-}
+
 /* 회의인원 */
 .container .main-header .main-header-inner .icon-box {
   display: inline-block;
@@ -92,7 +80,6 @@
 }
 .container .content .r-area {
   display: inline-block;
-  width: 400px;
   vertical-align: top;
   padding: 10px;
 }

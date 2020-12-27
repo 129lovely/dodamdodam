@@ -73,21 +73,23 @@
       .js_btn {
         font-size: 14px !important;
       }
-      /* .media-container h2 {
-        color: black !important;
-      } */
 
-      /* #chat-container {
-        overflow-y: auto;
-        height: 200px;
-        background-color: pink;
+      .my-btn {
+        padding: 5px 10px;
+        border-radius: 10px;
       }
 
-      #txt-chat {
-        width: 80%;
-        height: 30px;
-        font-size: 20px;
-      } */
+      .my-btn.btn-yellow {
+        background-color: #ffb900;
+      }
+
+      .my-btn.btn-gray {
+        background-color: #646464;
+      }
+
+      .my-btn.btn-stop {
+        background-color: #6e6e6e;
+      }
     </style>
   </head>
 
@@ -96,18 +98,14 @@
       <div class="container">
         <!-- 페이지 상단 화상회의 진행구간 -->
         <div class="main-header">
-          <div class="main-header-inner">
-            <h1>
+          <div class="main-header-inner row">
+            <h1 class="col-4">
               <input type="hidden" value="<%= userid %>" id="txt-userid" />
               <input type="hidden" value="<%= username %>" id="txt-username" />
               회의실 ID:
               <span id="txt-roomid"><%= roomid %></span>
             </h1>
-            <button id="btn-stt" class="btn btn-danger" disabled>
-              음성인식 시작하기
-            </button>
-            <button id="btn-exit" class="btn btn-primary">회의실 나가기</button>
-            <div class="right-box">
+            <div class="right-box col-1">
               <div class="icon-box">
                 <i class="fas fa-user fa-1x"></i>
                 <span id="total-num"></span>명
@@ -118,6 +116,14 @@
                   <dd>00:00:00</dd>
                 </dl>
               </div> -->
+            </div>
+            <div class="col-7" style="text-align: right">
+              <button id="btn-stt" class="btn btn-warning disabled">
+                음성인식 시작하기
+              </button>
+              <button id="btn-exit" class="btn btn-secondary">
+                회의실 나가기
+              </button>
             </div>
           </div>
         </div>
