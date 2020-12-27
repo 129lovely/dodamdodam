@@ -32,37 +32,40 @@ const btnSendChat = document.getElementById("btn-send-chat");
 const chatText = document.getElementById("txt-chat");
 
 function appendDIV(event) {
-  const ul = document.querySelector("chat-list");
+  const data = event.data || event;
+
+  const ul = document.querySelector(".chat-list");
+
   const li = document.createElement("li");
 
   const divThum = document.createElement("div");
   divThum.classList.add("thum");
-  li.appendChild(divThum);
-
   const img = document.createElement("img");
   img.src = "/demos/images/ex1.jpg"; // 서버에서 넘어온 데이터 src로 할당
+  divThum.appendChild(img);
+  li.appendChild(divThum);
+
+  const spanName = document.createElement("span");
+  spanName.innerText = data.username;
+  li.appendChild(spanName);
 
   const divChatContainer = document.createElement("div");
-  div.classList.add("chat-container");
-  li.appendChild(div);
-
+  divChatContainer.classList.add("chat-container");
   const p = document.createElement("p");
-  p.innerText = event;
-  div.appendChild(p);
-
+  p.innerText = data.contents;
   const span = document.createElement("span");
   span.classList.add("current-time");
-  span.textContent = getDate();
+  span.textContent = data.time;
+  divChatContainer.appendChild(p);
 
-  const chatContainer = document.querySelector(".chat-container");
-
-  if (event.userid === userid) {
+  if (event.userid == userid) {
     li.classList.add("my-message");
     divChatContainer.prepend(span);
   } else {
     divChatContainer.appendChild(span);
   }
 
+  li.appendChild(divChatContainer);
   ul.appendChild(li);
 
   //   const div = document.createElement("div");
@@ -112,21 +115,21 @@ if (typeof SpeechRecognition === "undefined") {
 
   // result, start, error, end 이벤트 등록
   recognition.addEventListener("result", (event) => {
+    console.log(event.results);
     for (const res of event.results) {
       if (res.isFinal) {
-        const time = new Date()
-          .toTimeString()
-          .replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
-        const contents = res[0].transcript;
-
         // send chat to socket
-        const text = `[${time}] ${username}: ${contents}`;
-        connection.send(text);
-        appendDIV(text);
+        const data = {
+          roomid: roomid,
+          time: getDate(),
+          userid: userid,
+          username: username,
+          contents: res[0].transcript,
+        };
+        connection.send(data);
+        appendDIV(data);
 
-        console.log(text);
-
-        sendChatAjax(time, res[0].transcript);
+        sendChatAjax(data);
       }
     }
   });
@@ -177,30 +180,23 @@ if (typeof SpeechRecognition === "undefined") {
 const videoContainer = document.getElementById("videos-container");
 
 btnSendChat.addEventListener("click", () => {
-  const time = new Date()
-    .toTimeString()
-    .replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
-  const contents = chatText.value;
-
   // send chat to socket
-  const text = `[${time}] ${userid}: ${contents}`;
-  connection.send(text);
-  appendDIV(text);
-
-  sendChatAjax(time, res[0].transcript);
+  const data = {
+    roomid: roomid,
+    time: getDate(),
+    userid: userid,
+    username: username,
+    contents: chatText.value,
+  };
+  connection.send(data);
+  appendDIV(data);
+  sendChatAjax(data);
 
   chatText.value = "";
 });
 
 // post chat to server
-function sendChatAjax(time, contents) {
-  const data = {
-    roomid: roomid,
-    time: time,
-    userid: userid,
-    username: username,
-    contents: contents,
-  };
+function sendChatAjax(data) {
   fetch("/api/chat", {
     method: "POST",
     headers: {
@@ -211,6 +207,21 @@ function sendChatAjax(time, contents) {
     console.log(response.status + " " + response.statusText);
   });
 }
+
+const getDate = () => {
+  const date = new Date();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  return `${checkMorningOrAfternoon(hours)} ${hours}:${minutes}`;
+};
+
+const checkMorningOrAfternoon = (hours) => {
+  if (hours >= 12 || hours < 24) {
+    return "오후";
+  } else {
+    return "오전";
+  }
+};
 
 connection.onstream = (event) => {
   const video = getHTMLMediaElement(event.mediaElement, {

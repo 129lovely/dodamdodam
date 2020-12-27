@@ -185,38 +185,6 @@
       //     ul.appendChild(li);
       //   });
       // })();
-
-      $(function () {
-        $(".scroll-view").scrollTop(document.body.scrollHeight);
-
-        $(document).bind("keypress", function (e) {
-          if (e.keyCode === 13) {
-            $(".js_btn").trigger("click");
-          }
-        });
-
-        $(".js_btn").on("click", function () {
-          var getVal = $(".input-area input").val();
-          var elem = $(
-            "<li>" +
-              "<div class='thum'><img src='/demos/images//ex1.jpg' alt=''></div>" +
-              "<span>최인경</span>" +
-              "<div class='chat-container'>" +
-              "<p>" +
-              getVal +
-              "</p>" +
-              "<span>" +
-              getDate() +
-              "</span>" +
-              "</div>" +
-              "</li>"
-          );
-
-          $(".scroll-view ul").append(elem);
-          $(".scroll-view").scrollTop(document.body.scrollHeight);
-          $(".input-area input").val("");
-        });
-      });
     </script>
   </body>
 </html>
