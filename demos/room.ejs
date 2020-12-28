@@ -99,14 +99,11 @@
         <!-- 페이지 상단 화상회의 진행구간 -->
         <div class="main-header">
           <div class="main-header-inner row">
-            <h1 class="col-4">
-              <input type="hidden" value="<%= userid %>" id="txt-userid" />
-              <input type="hidden" value="<%= username %>" id="txt-username" />
-              회의실 ID:
-              <span id="txt-roomid"><%= roomid %></span>
-            </h1>
-            <div class="right-box col-1">
-              <div class="icon-box">
+            <h1 class="col-8 d-flex align-items-center" style="font-size: 30px">
+              <div
+                class="icon-box mr-5"
+                style="font-size: 14px; margin-right: 10px"
+              >
                 <i class="fas fa-user fa-1x"></i>
                 <span id="total-num"></span>명
               </div>
@@ -116,12 +113,19 @@
                   <dd>00:00:00</dd>
                 </dl>
               </div> -->
-            </div>
-            <div class="col-7" style="text-align: right">
+              <input type="hidden" value="<%= userid %>" id="txt-userid" />
+              <input type="hidden" value="<%= username %>" id="txt-username" />
+              회의실 ID:
+              <span id="txt-roomid"><%= roomid %></span>
+            </h1>
+
+            <div class="col-4" style="text-align: right">
               <button id="btn-stt" class="btn btn-warning" disabled>
+                <i class="fas fa-microphone"></i>
                 음성인식 시작하기
               </button>
               <button id="btn-exit" class="btn btn-secondary">
+                <i class="fas fa-sign-out-alt"></i>
                 회의실 나가기
               </button>
             </div>
@@ -130,42 +134,46 @@
         <!-- main-header -->
         <div class="content row">
           <!-- 화상영상 4개 -->
-          <div id="videos-container" class="col-8"></div>
+          <div id="videos-container" class="col-8 pb-3"></div>
 
           <!-- 채팅 창 -->
-          <div class="r-area col-4">
-            <div class="scroll-view">
-              <ul class="chat-list">
-                <!-- 상대 -->
-                <li>
-                  <div class="thum">
-                    <img src="/demos/images//ex1.jpg" alt="" />
-                  </div>
-                  <span>김영욱</span>
-                  <div class="chat-container">
-                    <p>여기 pdf 자료를 보시면 알 수 있습니다.</p>
-                    <span>오전 11:24</span>
-                  </div>
-                </li>
-                <!-- 나 -->
-                <li class="my-message">
-                  <span>배민진</span>
-
-                  <div class="chat-container">
-                    <span>오전 11:25</span>
-                    <p>배민진팀 화이팅</p>
-                  </div>
+          <div class="r-area col-4" style="position: relative">
+            <div class="scroll-view" style="height: 100%; padding-bottom: 50px">
+              <ul class="chat-list" style="padding-left: 0">
+                <li
+                  style="
+                    font-size: 14px;
+                    padding: 0;
+                    margin: 0;
+                    margin-bottom: 10px;
+                    color: #6c757d;
+                  "
+                  class=""
+                >
+                  <i class="fas fa-volume-up"></i>
+                  &nbsp;발화 내용이 자동으로 채팅창에 기록됩니다.
                 </li>
               </ul>
             </div>
             <!-- 채팅 입력 창 -->
-            <div class="input-area">
+            <div
+              class="input-area row"
+              style="position: absolute; bottom: 10px; width: 100%"
+            >
               <input
+                class="col-9"
                 id="txt-chat"
                 type="text"
                 placeholder="메세지를 입력해주세요"
               />
-              <button type="button" class="js_btn" id="btn-send-chat" disabled>
+              <button
+                class="col-3"
+                type="button"
+                class="js_btn"
+                id="btn-send-chat"
+                disabled
+                style="font-size: 14px"
+              >
                 전송
               </button>
             </div>

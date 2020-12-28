@@ -137,7 +137,8 @@ if (typeof SpeechRecognition === "undefined") {
   });
   recognition.addEventListener("start", (event) => {
     isSttRecognizing = true;
-    btnStt.textContent = "음성인식 멈추기";
+    btnStt.innerHTML =
+      '<i class="fas fa-microphone-slash"></i> 음성인식 멈추기';
   });
   recognition.addEventListener("error", (event) => {
     if (event.error == "no-speech") {
@@ -156,7 +157,7 @@ if (typeof SpeechRecognition === "undefined") {
     isSttRecognizing = false;
     if (isSttErrorOccured) {
       // no-speech 외의 에러 발생으로 인한 end 이벤트일 경우
-      btnStt.textContent = "음성인식 시작하기";
+      btnStt.innerHTML = '<i class="fas fa-microphone"></i> 음성인식 시작하기';
       isSttErrorOccured = false;
       return;
     }
@@ -168,8 +169,10 @@ if (typeof SpeechRecognition === "undefined") {
     if (isSttRecognizing) {
       isSttErrorOccured = true;
       recognition.stop();
+      this.blur();
     } else {
       recognition.start();
+      this.blur();
     }
   });
 }
@@ -284,4 +287,7 @@ connection.onleave = function (event) {
   document.getElementById(event.userid).remove();
 };
 
+alert(
+  "---------------- 주의 ----------------\n1. 발화 내용을 자동 기록하려면 <음성인식 시작하기> 버튼을 눌러주세요.\n2. <회의실 나가기> 버튼을 눌러야만 회의록 요약 파일을 다운로드 받을 수 있습니다."
+);
 enterRoom();

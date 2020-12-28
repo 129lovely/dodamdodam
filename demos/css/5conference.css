@@ -1,14 +1,14 @@
 /* 컨테이너 */
 .wrap .container {
-  width: 1200px;
+  /* width: 1200px; */
   border: 5px solid #ffd258;
   border-radius: 10px;
   margin: 40px auto;
-  box-sizing: content-box;
+  /* box-sizing: content-box; */
 }
 /* 화상회의 헤더 */
 .container .main-header {
-  padding: 10px 20px;
+  padding: 10px 0;
 }
 
 /* 회의이름 */
@@ -23,7 +23,6 @@
 .container .main-header .main-header-inner .icon-box {
   display: inline-block;
   color: #646464;
-  margin-left: 10px;
   border: 1px solid #a7a7a7;
   padding: 5px 7px;
   border-radius: 15px;
@@ -86,7 +85,7 @@
 /* 채팅창- 스크롤바 */
 .container .content .r-area .scroll-view {
   height: 500px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .container .content .r-area ul li {
