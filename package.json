@@ -58,6 +58,8 @@
     "python-shell": "^2.0.3",
     "querystring": "^0.2.0",
     "recordrtc": "latest",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9",
     "rtcmulticonnection-server": "latest",
     "socket.io": "latest",
     "webrtc-adapter": "latest",

@@ -214,7 +214,7 @@ btnSendChat.addEventListener("click", chatTextEventListener);
 
 // post chat to server
 function sendChatAjax(data) {
-  fetch("/api/chat", {
+  fetch("/chat", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",

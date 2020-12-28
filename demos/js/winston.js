@@ -30,7 +30,7 @@ const options = {
     handleExceptions: true,
     json: true, // 로그형태를 json으로도 뽑을 수 있다.
     colorize: true,
-    format: combine(label({ label: "nba_express" }), timestamp(), myFormat),
+    format: combine(label({ label: "dodamdodam" }), timestamp(), myFormat),
   },
 };
 

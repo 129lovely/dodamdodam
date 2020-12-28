@@ -1,5 +1,6 @@
 // http://127.0.0.1:9001
 // http://localhost:9001
+const rpn = require("request-promise-native");
 const winston = require("./demos/js/winston");
 const ejs = require("ejs");
 const qs = require("querystring");
@@ -124,13 +125,16 @@ function serverHandler(request, response) {
       }
 
       // create json log file
-      if (request.url == "/api/chat") {
+      if (request.url == "/chat") {
         let body = "";
         request.on("data", (chunk) => {
           body += chunk.toString();
         });
         return request.on("end", () => {
           let data = JSON.parse(body);
+
+          console.log(body);
+
           const filepath = __dirname + "/logs/" + data.roomid + ".json";
 
           try {
@@ -200,51 +204,38 @@ function serverHandler(request, response) {
       if (request.url.indexOf("/report") != -1) {
         const { roomid } = qs.parse(url.parse(request.url).query);
 
-        // run python shell
-        PythonShell.run(
-          __dirname + "/demos/python/summarization.py",
-          null,
-          function (err, results) {
-            if (err) throw err;
-            // python의 print값들을 results 리스트에 모아서 전달
-            // winston.error(err);
-            // winston.debug("results:");
-            // winston.debug(results);
-            console.log(err);
-            console.log(results);
-          }
-        );
+        //   const homepage = "https://dodamdodam.site";
+        const homepage = "http://localhost:5000";
 
+        // 채팅 파일 가져오기
+        const chatfile = fs.readFileSync(`${__dirname}/logs/${roomid}.json`);
+        const options = {
+          uri: `${homepage}/api/report/${roomid}`,
+          method: "POST",
+          //   headers: { "content-type": "application/json" },
+          json: true,
+          body: JSON.parse(chatfile),
+        };
+        // 채팅 json 파일을 api 서버로 전송
+        rpn(options, (err, res, body) => {
+          if (!err && res.statusCode == 200) {
+            console.log("json file created!");
+          }
+        });
+
+        // 템플릿 렌더링
         let htmlContent = fs.readFileSync(
           __dirname + "/demos/report.ejs",
           "utf-8"
         );
         let html = ejs.render(htmlContent, {
-          roomid: roomid,
+          down_url: `${homepage}/api/report/${roomid}`,
         });
         response.writeHead(201, {
           "Content-Type": "text/html;charset=utf-8",
         });
         return response.end(html, "utf-8");
       }
-
-      /**
-       * 최종 리포트 파일 리턴
-       */
-      //   if (request.url == "/api/report") {
-      //     const roomid = request.url.split("/")[3]; // url에서 roomid 가져오기
-      //     const chat_data = fs.readFileSync(__dirname + "/logs/" + roomid);
-
-      //     //한글도 데이터 오갈수 있음 test.py를 실행시키면 확인할 수 있음
-      //     const options = {
-      //       mode: "text",
-      //       pythonPath: "",
-      //       encoding: "utf8",
-      //       pythonOptions: ["-u"],
-      //       scriptPath: "",
-      //       args: [escape(data.toString())],
-      //     };
-      //   }
     }
 
     // ===========================================================
