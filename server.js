@@ -204,8 +204,8 @@ function serverHandler(request, response) {
       if (request.url.indexOf("/report") != -1) {
         const { roomid } = qs.parse(url.parse(request.url).query);
 
-        //   const homepage = "https://dodamdodam.site";
-        const homepage = "http://localhost:5000";
+        const homepage = "https://dodamdodam.site";
+        // const homepage = "http://localhost:5000";
 
         // 채팅 파일 가져오기
         const chatfile = fs.readFileSync(`${__dirname}/logs/${roomid}.json`);
