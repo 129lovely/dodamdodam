@@ -25,167 +25,25 @@
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <style>
       .media-container {
-        width: 50%;
+        width: 100%;
         border: none;
-      }
-
-      ul p {
-        margin-bottom: 0 !important;
-        padding: 10px !important;
-      }
-
-      body
-        > div
-        > div
-        > div.content.row
-        > div.r-area.col-4
-        > div.scroll-view
-        > ul
-        > li.my-message
-        > div
-        > span {
-        text-align: right;
-      }
-
-      body
-        > div
-        > div
-        > div.content.row
-        > div.r-area.col-4
-        > div.scroll-view
-        > ul
-        > li:nth-child(1)
-        > div.chat-container
-        > span {
-        padding-left: 0;
-        margin-left: 5px;
-      }
-
-      .chat-list span {
-        padding-right: 5px;
-        padding-left: 5px;
-      }
-
-      .my-message {
-        padding-right: 5px !important;
-      }
-
-      .js_btn {
-        font-size: 14px !important;
-      }
-
-      .my-btn {
-        padding: 5px 10px;
-        border-radius: 10px;
-      }
-
-      .my-btn.btn-yellow {
-        background-color: #ffb900;
-      }
-
-      .my-btn.btn-gray {
-        background-color: #646464;
-      }
-
-      .my-btn.btn-stop {
-        background-color: #6e6e6e;
       }
     </style>
   </head>
 
   <body>
     <div class="wrap">
-      <div class="container">
+      <div>
         <!-- 페이지 상단 화상회의 진행구간 -->
-        <div class="main-header">
-          <div class="main-header-inner row">
-            <h1 class="col-8 d-flex align-items-center" style="font-size: 30px">
-              <div
-                class="icon-box mr-5"
-                style="font-size: 14px; margin-right: 10px"
-              >
-                <i class="fas fa-user fa-1x"></i>
-                <span id="total-num"></span>명
-              </div>
-              <!-- <div class="time-box">
-                <dl>
-                  <dt>회의 시간</dt>
-                  <dd>00:00:00</dd>
-                </dl>
-              </div> -->
-              <input type="hidden" value="<%= userid %>" id="txt-userid" />
-              <input type="hidden" value="<%= username %>" id="txt-username" />
-              회의실 ID:
-              <span id="txt-roomid"><%= roomid %></span>
-            </h1>
-
-            <div class="col-4" style="text-align: right">
-              <button id="btn-stt" class="btn btn-warning" disabled>
-                <i class="fas fa-microphone"></i>
-                음성인식 시작하기
-              </button>
-              <button id="btn-exit" class="btn btn-secondary">
-                <i class="fas fa-sign-out-alt"></i>
-                회의실 나가기
-              </button>
-            </div>
-          </div>
-        </div>
+          
+        <input type="hidden" value="<%= userid %>" id="txt-userid" />
+        <input type="hidden" value="<%= username %>" id="txt-username" />
+        <input type="hidden" value="<%= roomid %>" id="txt-roomid" />
+        
         <!-- main-header -->
-        <div class="content row">
+        <div>
           <!-- 화상영상 4개 -->
-          <div id="videos-container" class="col-8 pb-3"></div>
-
-          <!-- 채팅 창 -->
-          <div
-            class="r-area col-4"
-            style="max-height: 600px; position: relative"
-          >
-            <div class="scroll-view" style="height: 90%; padding-bottom: 0">
-              <ul class="chat-list" style="padding-left: 0">
-                <li
-                  style="
-                    font-size: 14px;
-                    padding: 0;
-                    margin: 0;
-                    margin-bottom: 10px;
-                    color: #6c757d;
-                  "
-                  class=""
-                >
-                  <i class="fas fa-volume-up"></i>
-                  &nbsp;발화 내용이 자동으로 채팅창에 기록됩니다.
-                </li>
-              </ul>
-            </div>
-            <!-- 채팅 입력 창 -->
-            <div
-              class="input-area row"
-              style="
-                position: absolute;
-                bottom: 10px;
-                width: 100%;
-                padding: 10px;
-              "
-            >
-              <input
-                class="col-9"
-                id="txt-chat"
-                type="text"
-                placeholder="메세지를 입력해주세요"
-              />
-              <button
-                class="col-3"
-                type="button"
-                class="js_btn"
-                id="btn-send-chat"
-                disabled
-                style="font-size: 14px"
-              >
-                전송
-              </button>
-            </div>
-          </div>
+          <div id="videos-container" style="display: flex; justify-content: row; flex-wrap: nowrap;"></div>          
         </div>
       </div>
       <!-- container -->
@@ -199,60 +57,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/demos/js/script.js"></script>
     <script>
-      // 추가한 코드
-      // (() => {
-      //   const getDate = () => {
-      //     const date = new Date();
-      //     const hours = date.getHours();
-      //     const minutes = date.getMinutes();
-      //     return `${checkMorningOrAfternoon(hours)} ${hours}:${minutes}`;
-      //   };
-
-      //   const checkMorningOrAfternoon = (hours) => {
-      //     if (hours >= 12 || hours < 24) {
-      //       return "오후";
-      //     } else {
-      //       return "오전";
-      //     }
-      //   };
-
-      //   //웹소켓 이벤트 발생: "chat"
-      //   socket.on("chat", (data) => {
-      //     // data 프로퍼티에 들어있는 것을 판단해서 DOM생성할지 말지 처리할 것
-      //     const ul = document.querySelector("chat-list");
-      //     const li = document.createElement("li");
-
-      //     const divThum = document.createElement("div");
-      //     divThum.classList.add("thum");
-      //     li.appendChild(divThum);
-
-      //     const img = document.createElement("img");
-      //     img.src = data.img; // 서버에서 넘어온 데이터 src로 할당
-
-      //     const divChatContainer = document.createElement("div");
-      //     div.classList.add("chat-container");
-      //     li.appendChild(div);
-
-      //     const p = document.createElement("p");
-      //     div.appendChild(p);
-
-      //     const span = document.createElement("span");
-      //     span.classList.add("current-time");
-      //     span.textContent = getDate();
-
-      //     const chatContainer = document.querySelector(".chat-container");
-
-      //     // Todo: 자기인지 아닌지 판별하는 플래그 추가할 것
-      //     if (data.user === user) {
-      //       li.classList.add("my-message");
-      //       divChatContainer.prepend(span);
-      //     } else {
-      //       divChatContainer.appendChild(span);
-      //     }
-
-      //     ul.appendChild(li);
-      //   });
-      // })();
     </script>
   </body>
 </html>
