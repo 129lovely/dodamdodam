@@ -173,6 +173,11 @@ function serverHandler(request, response) {
         });
       }
 
+      if (request.url == "/health") {
+        response.writeHead(200);
+        return response.end("OK");
+      }
+
       if (request.url.indexOf("/register") != -1) {
         return fs.readFile(__dirname + "/demos/register.html", (err, data) => {
           if (err) {
