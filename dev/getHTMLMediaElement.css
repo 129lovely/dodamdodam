@@ -25,16 +25,16 @@ Documentation - github.com/muaz-khan/WebRTC-Experiment/tree/master/getMediaEleme
     width: 36%;
     display: inline-block;
     border: 1px solid rgb(0, 0, 0);
-    border-radius: 4px;
+    /* border-radius: 4px; */
     overflow: hidden;
     vertical-align: top;
-    background: white;
+/*    background: white; */
 }
 
 .media-box {
-    background: black;
+    /* background: black;
     border: 1px solid rgb(107, 107, 107);
-    margin: 1px;
+    margin: 1px; */
 }
 
 .media-controls, .volume-control {
