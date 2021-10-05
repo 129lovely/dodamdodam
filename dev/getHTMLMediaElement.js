@@ -326,7 +326,8 @@ function getHTMLMediaElement(mediaElement, config) {
 
         return this;
     };
-
+    mediaElement.muted = true;
+    mediaElement.volume = 0;
     mediaElementContainer.media = mediaElement;
 
     return mediaElementContainer;

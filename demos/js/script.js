@@ -48,10 +48,10 @@ connection.onstream = (event) => {
     title: '',
     buttons: [],
     width: "100%",
-    showOnMouseEnter: false,
+    showOnMouseEnter: false
   });
 
-  video.id = event.userid;
+  video.id = event.extra.username;
   videoContainer.appendChild(video);
 };
 
