@@ -79,85 +79,36 @@ function serverHandler(request, response) {
 
     // POST METHOD
     if (request.method == "POST") {
-      if (request.url.indexOf("/new") != -1) {
+      if (request.url.indexOf("/submit") != -1) {
         let body = "";
         request.on("data", (chunk) => {
           body += chunk.toString();
         });
+        ///room?roomid=<%= roomid %>&username=<%= username %>&userid=<%= userid %>
         return request.on("end", () => {
-          const { username, userid } = qs.parse(decodeURIComponent(body));
-          let htmlContent = fs.readFileSync(
-            __dirname + "/demos/new.ejs",
-            "utf-8"
-          );
-          let html = ejs.render(htmlContent, {
-            username: username,
-            userid: userid,
-            roomid: Math.random().toString(36).substring(2, 10),
-          });
-          response.writeHead(201, {
-            "Content-Type": "text/html;charset=utf-8",
-          });
-          response.end(html, "utf-8");
-        });
-      }
+          const { userid, usertype, password } = qs.parse(decodeURIComponent(body));
 
-      if (request.url.indexOf("/join") != -1) {
-        let body = "";
-        request.on("data", (chunk) => {
-          body += chunk.toString();
-        });
-        return request.on("end", () => {
-          const { username, userid } = qs.parse(decodeURIComponent(body));
-          let htmlContent = fs.readFileSync(
-            __dirname + "/demos/join.ejs",
-            "utf-8"
-          );
-          let html = ejs.render(htmlContent, {
-            username: username,
-            userid: userid,
-          });
-          response.writeHead(201, {
-            "Content-Type": "text/html;charset=utf-8",
-          });
-          response.end(html, "utf-8");
-        });
-      }
-
-      // create json log file
-      if (request.url == "/chat") {
-        let body = "";
-        request.on("data", (chunk) => {
-          body += chunk.toString();
-        });
-        return request.on("end", () => {
-          let data = JSON.parse(body);
-
-          console.log(body);
-
-          const filepath = __dirname + "/logs/" + data.roomid + ".json";
-
-          try {
-            // file already exists
-            let data_list = fs.readFileSync(filepath);
-            data_list = JSON.parse(data_list);
-            data_list.push(data);
-            data = data_list;
-          } catch (err) {
-            if (err.code === "ENOENT") {
-              // file not exists
-              data = [data];
-            } else {
-              throw err;
-            }
+          if(password === "ad2021") {
+            let htmlContent = fs.readFileSync(
+              __dirname + "/demos/room.ejs",
+              "utf-8"
+            );
+            let html = ejs.render(htmlContent, {
+              roomid: "cctv",
+              username: usertype,
+              userid: userid,
+            });
+            response.writeHead(201, {
+              "Content-Type": "text/html;charset=utf-8",
+            });
+            return response.end(html, "utf-8");
+          } else {
+            response.writeHead(401, {
+              "Content-Type": "text/plain",
+            });
+            response.write("401 Unauthorized");
+            response.end();
           }
-
-          fs.writeFile(filepath, JSON.stringify(data), (err) => {
-            if (err) throw err;
-          });
-
-          response.writeHead(201);
-          response.end("created");
         });
       }
     }
@@ -185,25 +136,6 @@ function serverHandler(request, response) {
           }
           response.end(data);
         });
-      }
-
-      if (request.url.indexOf("/room") != -1) {
-        const { roomid, username, userid } = qs.parse(
-          url.parse(request.url).query
-        );
-        let htmlContent = fs.readFileSync(
-          __dirname + "/demos/room.ejs",
-          "utf-8"
-        );
-        let html = ejs.render(htmlContent, {
-          roomid: roomid,
-          username: username,
-          userid: userid,
-        });
-        response.writeHead(201, {
-          "Content-Type": "text/html;charset=utf-8",
-        });
-        return response.end(html, "utf-8");
       }
 
       if (request.url.indexOf("/report") != -1) {

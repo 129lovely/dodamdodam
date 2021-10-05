@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>도담도담</title>
+    <title>avatar-dance</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
         rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
         crossorigin="anonymous">
@@ -12,37 +12,52 @@
     <link rel="stylesheet" href="/demos/css/1start.css">
 
     <style type="text/css">
-
+        
     </style>
 </head>
 
 <body>
-    <!-- 초기화면(start-coontainer) 시작 -->
-    <div class="container start-container">
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-        <div class="content">
-            <div class="content__container">
-                <p class="content__container__text " style="font-family: fun;">
-                    <span>도담</span><span>도담</span>
-                </p>
-                <!-- 롤링단어들 -->
-                <ul class="content__container__list">
-                    <li class="content__container__list__item">Hi</li>
-                    <li class="content__container__list__item">Bonjour</li>
-                    <li class="content__container__list__item">xinchao</li>
-                    <li class="content__container__list__item">Hola</li>
-                </ul>
+    <form action="/submit" method="POST">
+        <div class="container mt-5">
+            <h1>Please (1) enter the password, (2) check the radio button, and then (3) press the 'Submit' button.</h1>
+            <div class="form-group">
+                <input id="userid" type="hidden" value="" name="userid" />
+                <input type="password" name="password" class="form-control mt-5" value="" placeholder="password">
             </div>
-        </div>
-    </div>
+            <div class="form-group mt-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="usertype" id="exampleRadios2" value="user" checked>
+                    <label class="form-check-label" for="exampleRadios2">
+                      User (for phone)
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="usertype" id="exampleRadios1" value="admin">
+                    <label class="form-check-label" for="exampleRadios1">
+                      Administrator (for notebook)
+                    </label>
+                </div>
+            </div>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-outline-dark">Submit</button>
+            </div>        
+        </div>    
+    </form>
+    
+    <!-- javascript library -->
+    <script src="/demos/js/jquery-1.12.4.min.js"></script>
+    <script src="/dist/RTCMultiConnection.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const connection = new RTCMultiConnection();
+        document.getElementById("userid").value = connection.token();
 
-    <h2>AI 화상 협업 플랫폼</h2>
-        <div class="d-md-block" style="text-align:center">
-            <button type="button" class="btn btn-warning btn-lg btn1 rounded-pill" onclick="location.href='/register?next=new';">회의 생성</button>
-            <button type="button" class="btn btn-light btn-lg btn2 rounded-pill" onclick="location.href='/register?next=join';">회의 참가</button>
-        </div>
-    </div>
+        const adminLogin = document.getElementById("adminLogin"); 
+        const userLogin = document.getElementById("userLogin");
 
+        adminLogin.onclick(() => {
+            alert("hi");
+        })
+    </script>
 </body>
-
 </html>
